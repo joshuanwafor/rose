@@ -13,7 +13,7 @@ export const MainHeader = () => {
         <div className="collapse navbar-collapse" id="navbarScroll">
           <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style={{}}>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">All Products</a>
+              <a className="nav-link active"  href="catalog">All Products</a>
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
