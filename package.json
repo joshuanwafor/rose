@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn run gen-catalog-live && next build",
     "start": "yarn run gen-catalog && next build && next start -p 3200",
     "gen-catalog": "openapi-generator-cli generate -i http://localhost:5000/docs/storefront-catalog-json -g typescript-axios -o src/sdk/storefront",
     "gen-catalog-live": "openapi-generator-cli generate -i https://api.bigmerchant.ng/docs/storefront-catalog-json -g typescript-axios -o src/sdk/storefront"
