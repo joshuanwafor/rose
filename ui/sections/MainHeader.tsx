@@ -21,7 +21,6 @@ export const MainHeader = () => {
                 Departments
               </a>
               <ul className="dropdown-menu">
-
                 {pageDataManager.collections.map(e => {
                   return <li><a className="dropdown-item" href="#">{e.name}</a></li>
                 })}
