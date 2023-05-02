@@ -4,6 +4,9 @@ import { ProductCard } from '../ui/organisms/ProductCard';
 import { RenderProductsMin } from '../ui/sections/RenderProductsMin';
 import { SiteCover } from '../ui/sections/SiteCover';
 import { AppTemplate } from '../ui/templates/AppTemplate';
+import { GetServerSidePropsContext } from 'next';
+import { getPageData } from '../lib';
+import { pageDataManager } from '../src/store/pageData';
 
 export default function Home() {
   return (
@@ -38,22 +41,30 @@ export default function Home() {
                 <li><a className="dropdown-item" href="#">Out of stock</a></li>
               </ul>
             </span>
-
-
-
-
           </div>
           <span>35 Products </span>
-
         </div>
         <div className="row my-3">
-          {[1, 2, 3, 4, 1, 2, 3, 4, 2, 3, 4, 5, 6].map(e => {
+          {pageDataManager.products.map(e => {
             return <div className="col-6 col-md-3 mb-2">
-              <ProductCard />
+              <ProductCard  product={e}/>
             </div>
           })}
         </div>
       </div>
     </AppTemplate>
   )
+}
+
+
+
+export async function getServerSideProps({ req, res, resolvedUrl, params }: GetServerSidePropsContext) {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
+  const origin = req.headers.host;
+  return {
+    props: getPageData(origin)// will be passed to the page component as props
+  }
 }

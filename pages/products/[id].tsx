@@ -2,6 +2,9 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { RenderProductsMin } from '../../ui/sections/RenderProductsMin';
 import { AppTemplate } from '../../ui/templates/AppTemplate';
+import { CollectionControllerApi, ProductControllerApi } from '../../src/sdk/storefront';
+import { GetServerSidePropsContext } from 'next';
+import { getPageData } from '../../lib';
 
 export default function ViewProduct() {
     return (
@@ -33,3 +36,18 @@ export default function ViewProduct() {
         </AppTemplate>
     )
 }
+
+
+export async function getServerSideProps({ req, res, resolvedUrl, params }: GetServerSidePropsContext) {
+
+    res.setHeader(
+        'Cache-Control',
+        'public, s-maxage=10, stale-while-revalidate=59'
+    )
+    const origin = req.headers.host;
+
+    return {
+        props: getPageData(origin)// will be passed to the page component as props
+    }
+}
+

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { pageDataManager } from "../../src/store/pageData"
 
 export const MainHeader = () => {
   return <div>
@@ -13,22 +14,20 @@ export const MainHeader = () => {
         <div className="collapse navbar-collapse" id="navbarScroll">
           <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style={{}}>
             <li className="nav-item">
-              <a className="nav-link active" href="catalog">All Products</a>
+              <a className="nav-link active" href="/catalog">All Products</a>
             </li>
-            <li className="nav-item dropdown">
+            {pageDataManager.collections.length == 0 ? null : <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Departments
               </a>
               <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="#">Action</a></li>
-                <li><a className="dropdown-item" href="#">Another action</a></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="#">Something else here</a></li>
+
+                {pageDataManager.collections.map(e => {
+                  return <li><a className="dropdown-item" href="#">{e.name}</a></li>
+                })}
               </ul>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">Policy</a>
-            </li>
+            </li>}
+
           </ul>
           <UserActions />
         </div>

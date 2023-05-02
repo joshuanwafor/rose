@@ -3,10 +3,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT"
+    "start": "yarn run gen-catalog && next build && next start -p 3200",
+    "gen-catalog": "openapi-generator-cli generate -i http://localhost:5000/docs/storefront-catalog-json -g typescript-axios -o src/sdk/storefront",
+    "gen-catalog-live": "openapi-generator-cli generate -i https://api.bigmerchant.ng/docs/storefront-catalog-json -g typescript-axios -o src/sdk/storefront"
   },
   "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.6.0",
     "bootstrap": "5.3.0-alpha2",
+    "mobx": "^6.9.0",
+    "mobx-react": "^7.6.0",
     "next": "latest",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
