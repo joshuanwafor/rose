@@ -5,6 +5,9 @@ import { pageDataManager } from "../../src/store/pageData"
 
 
 export const FeaturedCollections = observer( () => {
+    if(pageDataManager.collections.length==0){
+        return <div></div>
+    }
     return <div className="container my-5">
         <h3>Featured collections</h3>
         <div className="row my-3">

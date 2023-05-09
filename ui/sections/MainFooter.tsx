@@ -1,17 +1,39 @@
-
 export const MainFooter = () => {
-    return <div className="btn-light border-top">
+  return (
+    <div>
+      <div className="btn-light border-top py-4">
         <div className="container">
-        <footer className="py-3 my-4">
-            <ul className="nav justify-content-center  pb-3 mb-3">
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Home</a></li>
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Features</a></li>
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Pricing</a></li>
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">FAQs</a></li>
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">About</a></li>
+          <footer className="py-3">
+            <ul className="nav justify-content-center">
+              <li className="nav-item">
+                <a href="#" className="nav-link px-2 text-body-secondary">
+                  Home
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#" className="nav-link px-2 text-body-secondary">
+                  Catalog
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#" className="nav-link px-2 text-body-secondary">
+                  Terms and Conditions
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#" className="nav-link px-2 text-body-secondary">
+                  Return policy
+                </a>
+              </li>
             </ul>
-            <p className="text-center text-body-secondary">© 2023 Company, Inc</p>
-        </footer>
+          </footer>
+        </div>
+      </div>
+      <div className="border-top py-3 ">
+        <p className="text-center text-body-secondary">
+          © 2023, theme-rose-demo Powered by Bigmerchant
+        </p>
+      </div>
     </div>
-    </div>
-}
+  );
+};

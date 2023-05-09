@@ -175,6 +175,12 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
+    'payment_status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Order
+     */
     'delivery_method': string;
     /**
      * 
@@ -452,6 +458,12 @@ export interface PublishOrderDto {
      * @type {string}
      * @memberof PublishOrderDto
      */
+    'delivery_status': PublishOrderDtoDeliveryStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof PublishOrderDto
+     */
     'payment_strategy': PublishOrderDtoPaymentStrategyEnum;
     /**
      * 
@@ -485,9 +497,16 @@ export interface PublishOrderDto {
     'initiated_by': PublishOrderDtoInitiatedByEnum;
 }
 
+export const PublishOrderDtoDeliveryStatusEnum = {
+    Pending: 'PENDING',
+    Completed: 'COMPLETED'
+} as const;
+
+export type PublishOrderDtoDeliveryStatusEnum = typeof PublishOrderDtoDeliveryStatusEnum[keyof typeof PublishOrderDtoDeliveryStatusEnum];
 export const PublishOrderDtoPaymentStrategyEnum = {
     Full: 'FULL',
-    Parts: 'PARTS'
+    Parts: 'PARTS',
+    PayOnDelivery: 'PAY_ON_DELIVERY'
 } as const;
 
 export type PublishOrderDtoPaymentStrategyEnum = typeof PublishOrderDtoPaymentStrategyEnum[keyof typeof PublishOrderDtoPaymentStrategyEnum];

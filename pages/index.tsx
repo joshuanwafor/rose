@@ -17,7 +17,6 @@ export default function Home(props) {
     <AppTemplate>
       <SiteCover />
       <FeaturedCollections />
-      <FeaturedProduct />
       <RenderProductsMin />
     </AppTemplate>
   )
