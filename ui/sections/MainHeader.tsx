@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { pageDataManager } from "../../src/store/pageData";
+import Link from "next/link";
 
 export const MainHeader = () => {
   return (
@@ -82,9 +83,12 @@ function UserActions() {
         placeholder="Search"
         aria-label="Search"
       />
-      <i className="bi bi-search mx-2"></i>
-      <i className="bi bi-person mx-2"></i>
-      <i className="bi bi-bag mx-2"></i>
+      <Link href={"/account"}>
+        <i className="bi bi-person mx-2" style={{ fontSize: 28 }}></i>
+      </Link>
+      <Link href={"/cart"}>
+        <i className="bi bi-bag mx-2" style={{ fontSize: 24 }}></i>
+      </Link>
     </form>
   );
 }

@@ -1,13 +1,15 @@
 import { GetServerSidePropsContext } from "next";
 import { getHomePage, getPageData } from "../lib";
-import { PageTitle } from "../ui/organisms/PageTitle";
 import { AppTemplate } from "../ui/templates/AppTemplate";
+import { PageTitle } from "../ui/organisms/PageTitle";
 
-export default function PrivacyPolicy() {
+export default function Account() {
   return (
     <div>
       <AppTemplate>
-        <PageTitle title="Privacy policy"></PageTitle>
+        <PageTitle
+          title="My Account"
+        ></PageTitle>
       </AppTemplate>
     </div>
   );

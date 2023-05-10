@@ -282,6 +282,12 @@ export interface Product {
     'meta_fields': Array<string>;
     /**
      * 
+     * @type {boolean}
+     * @memberof Product
+     */
+    'is_featured': boolean;
+    /**
+     * 
      * @type {string}
      * @memberof Product
      */
@@ -1154,6 +1160,121 @@ export const SiteControllerApiAxiosParamCreator = function (configuration?: Conf
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} domain 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        siteControllerGetCatalogPageResources: async (domain: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'domain' is not null or undefined
+            assertParamExists('siteControllerGetCatalogPageResources', 'domain', domain)
+            const localVarPath = `/api/catalog/storefront/site/page/catalog`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (domain !== undefined) {
+                localVarQueryParameter['domain'] = domain;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} domain 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        siteControllerGetHomeResources: async (domain: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'domain' is not null or undefined
+            assertParamExists('siteControllerGetHomeResources', 'domain', domain)
+            const localVarPath = `/api/catalog/storefront/site/home`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (domain !== undefined) {
+                localVarQueryParameter['domain'] = domain;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} domain 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        siteControllerGetProductPageResources: async (domain: string, id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'domain' is not null or undefined
+            assertParamExists('siteControllerGetProductPageResources', 'domain', domain)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('siteControllerGetProductPageResources', 'id', id)
+            const localVarPath = `/api/catalog/storefront/site/page/product`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (domain !== undefined) {
+                localVarQueryParameter['domain'] = domain;
+            }
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1170,8 +1291,39 @@ export const SiteControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async siteControllerGet(domain: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Order>>> {
+        async siteControllerGet(domain: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.siteControllerGet(domain, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} domain 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async siteControllerGetCatalogPageResources(domain: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.siteControllerGetCatalogPageResources(domain, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} domain 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async siteControllerGetHomeResources(domain: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.siteControllerGetHomeResources(domain, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} domain 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async siteControllerGetProductPageResources(domain: string, id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.siteControllerGetProductPageResources(domain, id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1190,8 +1342,36 @@ export const SiteControllerApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        siteControllerGet(domain: string, options?: any): AxiosPromise<Array<Order>> {
+        siteControllerGet(domain: string, options?: any): AxiosPromise<void> {
             return localVarFp.siteControllerGet(domain, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} domain 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        siteControllerGetCatalogPageResources(domain: string, options?: any): AxiosPromise<void> {
+            return localVarFp.siteControllerGetCatalogPageResources(domain, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} domain 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        siteControllerGetHomeResources(domain: string, options?: any): AxiosPromise<void> {
+            return localVarFp.siteControllerGetHomeResources(domain, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} domain 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        siteControllerGetProductPageResources(domain: string, id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.siteControllerGetProductPageResources(domain, id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1212,6 +1392,40 @@ export class SiteControllerApi extends BaseAPI {
      */
     public siteControllerGet(domain: string, options?: AxiosRequestConfig) {
         return SiteControllerApiFp(this.configuration).siteControllerGet(domain, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} domain 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SiteControllerApi
+     */
+    public siteControllerGetCatalogPageResources(domain: string, options?: AxiosRequestConfig) {
+        return SiteControllerApiFp(this.configuration).siteControllerGetCatalogPageResources(domain, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} domain 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SiteControllerApi
+     */
+    public siteControllerGetHomeResources(domain: string, options?: AxiosRequestConfig) {
+        return SiteControllerApiFp(this.configuration).siteControllerGetHomeResources(domain, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} domain 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SiteControllerApi
+     */
+    public siteControllerGetProductPageResources(domain: string, id: string, options?: AxiosRequestConfig) {
+        return SiteControllerApiFp(this.configuration).siteControllerGetProductPageResources(domain, id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
