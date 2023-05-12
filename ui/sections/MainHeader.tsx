@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { pageDataManager } from "../../src/store/pageData";
 import Link from "next/link";
+import { authManager } from "../../src/store/auth";
 
 export const MainHeader = () => {
   return (
@@ -29,9 +30,9 @@ export const MainHeader = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/catalog">
+                <Link className="nav-link" href="/catalog">
                   All products
-                </a>
+                </Link>
               </li>
               {pageDataManager.collections.length == 0 ? null : (
                 <li className="nav-item dropdown">
@@ -48,13 +49,13 @@ export const MainHeader = () => {
                     {pageDataManager.collections.map((e) => {
                       return (
                         <li>
-                          <a
+                          <Link
                             className="dropdown-item"
                             //@ts-ignore
                             href={`/catalog?collection=${e.id}`}
                           >
                             {e.name}
-                          </a>
+                          </Link>
                         </li>
                       );
                     })}

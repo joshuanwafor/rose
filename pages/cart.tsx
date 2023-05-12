@@ -1,9 +1,14 @@
 import { getHomePage, getPageData } from "../lib";
+import { formatCurrency } from "../lib/utils";
+import { OrderItem } from "../src/sdk/storefront";
+import { cartManager } from "../src/store/cart";
+import { pageDataManager } from "../src/store/pageData";
 import { MainBody } from "../ui/organisms/MainBody";
 import { PageTitle } from "../ui/organisms/PageTitle";
 import {
   RenderFeaturedProducts,
   RenderProductsMin,
+  RenderRelatedProducts,
 } from "../ui/sections/RenderProductsMin";
 import { AppTemplate } from "../ui/templates/AppTemplate";
 import { GetServerSidePropsContext } from "next";
@@ -34,21 +39,20 @@ export default function Cart() {
                 </tr>
               </thead>
               <tbody>
-                {[1, 2, 3, 4].map((_) => {
-                  return <RenderCartItem />;
+                {cartManager.cart.map((_) => {
+                  return <RenderCartItem item={_} />;
                 })}
               </tbody>
             </table>
 
             <div className="d-flex justify-content-end my-5">
               <div style={{ textAlign: "right" }}>
-                <p>Subtotal: 10,000 goes here</p>
+                <p>Subtotal: {formatCurrency(cartManager.getCartTotal())}</p>
                 <button className="btn btn-primary btn-lg mt-2">
                   Checkout
                 </button>
               </div>
             </div>
-
             <div className="my-5">
               <RenderFeaturedProducts />
             </div>
@@ -59,7 +63,7 @@ export default function Cart() {
   );
 }
 
-function RenderCartItem() {
+function RenderCartItem({ item }: { item: OrderItem }) {
   return (
     <tr>
       <td>
@@ -70,21 +74,21 @@ function RenderCartItem() {
               backgroundColor: "gray",
               width: "80px",
               height: "80px",
-              backgroundImage: `url(https://cdn.shopify.com/s/files/1/0070/7032/files/image5_4578a9e6-2eff-4a5a-8d8c-9292252ec848.jpg?v=1620247043)`,
+              backgroundImage: `url(${item.image})`,
               backgroundPosition: "center",
               backgroundSize: "cover",
             }}
           ></div>
           <div className="col-6">
-            <p>Product name</p>
-            <p>$10,000</p>
+            <p>{item.product_name}</p>
+            <p>{formatCurrency(item.amount)}</p>
           </div>
         </div>
       </td>
       <td>
         <div></div>
       </td>
-      <td>$100,000</td>
+      <td>{formatCurrency(item.amount * item.quantity)}</td>
     </tr>
   );
 }

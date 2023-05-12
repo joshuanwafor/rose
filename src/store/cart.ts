@@ -1,5 +1,20 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
+import {
+  collection,
+  addDoc,
+  setDoc,
+  getDoc,
+  getFirestore,
+  doc,
+  deleteDoc,
+  getDocs,
+  query,
+} from "firebase/firestore";
 import { OrderItem, Product } from "../sdk/storefront";
+import Notiflix from "notiflix";
+import { authManager } from "./auth";
+
+const db = getFirestore();
 
 class CartManager {
   cart: OrderItem[];
@@ -9,37 +24,96 @@ class CartManager {
     makeAutoObservable(this, { cart: observable });
   }
 
-  loadCart() {
+  getCollection() {
+    return collection(db, `test/cart`);
+  }
+  async loadCart() {
     // load cart here
+    //@ts-ignore
+    if (authManager.user?.uid !== undefined) {
+      //@ts-ignore
+      let snapshot = await getDocs(
+        //@ts-ignore
+        query(collection(db, `users/${authManager.user.uid}/cart`))
+      );
+      
+      let items = snapshot.docs.map((_) => _.data());
+      console.log(items);
+      runInAction(() => {
+        //@ts-ignore
+        this.cart = items;
+      });
+    }
   }
 
-  addItem(item: Product) {
+  async setDocument(id: string, payload: any) {
+    //@ts-ignore
+    if (authManager.user?.uid !== undefined) {
+      console.log("setting cart item online");
+      //@ts-ignore
+      await setDoc(
+        //@ts-ignore
+        doc(db, `users/${authManager.user.uid}/cart/${id}`),
+        payload
+      );
+    }
+  }
+
+  async deleteDocument(id: string) {
+    //@ts-ignore
+    if (authManager.user?.uid !== undefined) {
+      //@ts-ignore
+      await deleteDoc(
+        //@ts-ignore
+        doc(db, `users/${authManager.user.uid}/cart/${id}`)
+      );
+    }
+  }
+
+  async clearDocuments() {
+    //@ts-ignore
+    if (authManager.user?.uid !== undefined) {
+      //@ts-ignore
+      (
+        await getDocs(
+          //@ts-ignore
+          query(collection(db, `users/${authManager.user.uid}/cart`))
+        )
+      ).docs.forEach(async (_) => {
+        //@ts-ignore
+        await deleteDoc(_.ref);
+      });
+    }
+  }
+
+  async addItem(item: Product) {
+    let payload = {
+      //@ts-ignore
+      product_id: item._id ?? "",
+      amount: item.sale_price,
+      quantity: 1,
+      image: item.image ?? "",
+      product_name: item.title,
+      cost: item.cost_price,
+      product_variant_id: "",
+    };
+
     // verify that product is not in cart already
     //@ts-ignore
     if (this.cart.find((element) => element.product_id == item._id)) {
+      Notiflix.Notify.info(`${item.title} in cart already`);
       return;
     }
-
-    runInAction(() => {
-      this.cart.push({
-        //@ts-ignore
-        product_id: item._id ?? "",
-        amount: item.sale_price,
-        quantity: 1,
-        image:
-          item.image ??
-          "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/4f37fca8-6bce-43e7-ad07-f57ae3c13142/air-force-1-07-mens-shoes-5QFp5Z.png",
-        product_name: item.title,
-        cost: item.cost_price,
-        product_variant_id: "",
+    try {
+      //@ts-ignore
+      this.setDocument(item.id, payload);
+      Notiflix.Notify.success(`Added ${item.title} to cart`);
+      runInAction(() => {
+        this.cart.push(payload);
       });
-
-      //   showMessage({
-      //     message: `Added "${item.title} already exits in cart" to list`,
-      //     backgroundColor: 'black',
-      //     position:"center"
-      //   });
-    });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
 
   getCartTotal() {
@@ -49,11 +123,14 @@ class CartManager {
     return total;
   }
 
-  updateItem(item: OrderItem) {
+  async updateItem(item: OrderItem) {
     let _tempList = [...this.cart];
     let _itemIndex = _tempList.findIndex(
       (element) => element.product_id == item.product_id
     );
+
+    this.setDocument(item.product_id, { quantity: item.quantity });
+
     _tempList[_itemIndex].quantity = item.quantity;
 
     runInAction(() => {
@@ -72,17 +149,17 @@ class CartManager {
   }
 
   removeItem(id: string) {
+    // deleteDoc(doc(db, `users/joshua/cart/${id}`));
+    this.deleteDocument(id);
     runInAction(() => {
       this.cart = this.cart.filter((element) => element.product_id !== id);
     });
-    // showMessage({
-    //   message: `Removed item from list`,
-    //   backgroundColor: 'black',
-    // });
   }
 
-  clear() {
-    runInAction(() => {
+  async clear() {
+    Notiflix.Loading.dots();
+    await this.clearDocuments();
+    runInAction(async () => {
       this.cart = [];
     });
   }
