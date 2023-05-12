@@ -35,7 +35,7 @@ export async function getServerSideProps({
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"
   );
-  
+
   const origin = req.headers.host;
   return {
     props: getHomePage(origin), // will be passed to the page component as props

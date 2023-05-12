@@ -35,7 +35,7 @@ export default function Cart() {
                 <tr>
                   <th scope="col">Product</th>
                   <th scope="col">Quantity</th>
-                  <th scope="col">Total</th>
+                  <th scope="col" style={{textAlign:"right"}}>Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -88,7 +88,7 @@ function RenderCartItem({ item }: { item: OrderItem }) {
       <td>
         <div></div>
       </td>
-      <td>{formatCurrency(item.amount * item.quantity)}</td>
+      <td style={{textAlign:"right"}}>{formatCurrency(item.amount * item.quantity)}</td>
     </tr>
   );
 }
