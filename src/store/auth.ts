@@ -11,7 +11,8 @@ import { authController, configureClientSDK } from "../../config/sdk";
 class AuthManager {
   status: "initial" | "authenticated" = "initial";
   profile_status: "initial" | "loaded" | "failed" = "initial";
-  profile: UserPublicData | any = {};
+  //@ts-ignore
+  profile: UserPublicData  = {};
   token: string = "";
 
   constructor() {
@@ -88,6 +89,7 @@ class AuthManager {
   logout() {
     authManager.status = "initial";
     authManager.profile_status = "initial";
+    //@ts-ignore
     authManager.profile = {};
     sessionStorage.clear();
   }

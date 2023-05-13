@@ -29,6 +29,7 @@ const Main = observer(() => {
     );
   }
 
+  let profile = authManager.profile;
   return (
     <div>
       <AppTemplate>
@@ -52,12 +53,19 @@ const Main = observer(() => {
           <Row>
             <Col md={6} className="my-2">
               <div className="p-3 border">
-                <p>Profile info</p>
+                <h4>Profile info</h4>
+                <p>
+                  {profile.first_name} {profile.last_name}
+                  <br />
+                  {profile.email}
+                  <br />
+                  {profile.phone}
+                </p>
               </div>
             </Col>
             <Col md={6} className="my-2">
               <div className="p-3 border">
-                <p>My orders</p>
+                <h4>My orders</h4>
               </div>
             </Col>
           </Row>
