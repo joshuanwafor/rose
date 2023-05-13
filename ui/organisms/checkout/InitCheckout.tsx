@@ -6,11 +6,15 @@ import { cartManager } from "../../../src/store/cart";
 import { Row, Col, ButtonGroup, ToggleButton } from "react-bootstrap";
 import React from "react";
 import { pageDataManager } from "../../../src/store/pageData";
+import Notiflix from "notiflix";
+import { orderController } from "../../../config/sdk";
+import { useCheckout } from "../../../hooks/use-checkout";
 
 let Country = require("country-state-city").Country;
 let State = require("country-state-city").State;
 
 export const InitCheckout = observer(() => {
+  let { checkout } = useCheckout();
   const {
     register,
     handleSubmit,
@@ -20,7 +24,6 @@ export const InitCheckout = observer(() => {
     formState: { errors },
   } = useForm<PublishUserOrderDto>();
 
-  const [checked, setChecked] = useState(false);
   const [radioValue, setRadioValue] = useState("PICKUP");
 
   useEffect(() => {
@@ -33,8 +36,6 @@ export const InitCheckout = observer(() => {
   ];
 
   let branch: any = pageDataManager.branches[0];
-
-  console.log(branch);
   return (
     <div className="mb-5">
       <div style={{}}>
@@ -118,7 +119,7 @@ export const InitCheckout = observer(() => {
           ) : null}
 
           {radioValue == "PICKUP" ? (
-            <div style={{marginBottom:24}}>
+            <div style={{ marginBottom: 24 }}>
               <h3>Pickup address</h3>
               <p>Main branch</p>
               <p>
@@ -140,14 +141,16 @@ export const InitCheckout = observer(() => {
               go to cart
             </a>
 
-            <button
-              className="btn btn-primary btn-lg mt-2"
-              onClick={() => {
-                console.log(getValues());
-              }}
-            >
-              Place order
-            </button>
+            {cartManager.cart.length == 0 ? null : (
+              <button
+                className="btn btn-primary btn-lg mt-2"
+                onClick={async () => {
+                  checkout(branch, getValues(), radioValue);
+                }}
+              >
+                Place order
+              </button>
+            )}
           </div>
         </>
       </div>
