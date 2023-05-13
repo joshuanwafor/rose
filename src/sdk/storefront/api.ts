@@ -688,13 +688,10 @@ export const OrderControllerApiAxiosParamCreator = function (configuration?: Con
     return {
         /**
          * 
-         * @param {string} domain 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        orderControllerGet: async (domain: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'domain' is not null or undefined
-            assertParamExists('orderControllerGet', 'domain', domain)
+        orderControllerGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/catalog/storefront/order`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -711,8 +708,44 @@ export const OrderControllerApiAxiosParamCreator = function (configuration?: Con
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (domain !== undefined) {
-                localVarQueryParameter['domain'] = domain;
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} orderId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        orderControllerMakePayment: async (orderId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'orderId' is not null or undefined
+            assertParamExists('orderControllerMakePayment', 'orderId', orderId)
+            const localVarPath = `/api/catalog/storefront/order/pay`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (orderId !== undefined) {
+                localVarQueryParameter['order_id'] = orderId;
             }
 
 
@@ -777,12 +810,21 @@ export const OrderControllerApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} domain 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async orderControllerGet(domain: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Order>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.orderControllerGet(domain, options);
+        async orderControllerGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Order>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.orderControllerGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} orderId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async orderControllerMakePayment(orderId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.orderControllerMakePayment(orderId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -807,12 +849,20 @@ export const OrderControllerApiFactory = function (configuration?: Configuration
     return {
         /**
          * 
-         * @param {string} domain 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        orderControllerGet(domain: string, options?: any): AxiosPromise<Array<Order>> {
-            return localVarFp.orderControllerGet(domain, options).then((request) => request(axios, basePath));
+        orderControllerGet(options?: any): AxiosPromise<Array<Order>> {
+            return localVarFp.orderControllerGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} orderId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        orderControllerMakePayment(orderId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.orderControllerMakePayment(orderId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -835,13 +885,23 @@ export const OrderControllerApiFactory = function (configuration?: Configuration
 export class OrderControllerApi extends BaseAPI {
     /**
      * 
-     * @param {string} domain 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrderControllerApi
      */
-    public orderControllerGet(domain: string, options?: AxiosRequestConfig) {
-        return OrderControllerApiFp(this.configuration).orderControllerGet(domain, options).then((request) => request(this.axios, this.basePath));
+    public orderControllerGet(options?: AxiosRequestConfig) {
+        return OrderControllerApiFp(this.configuration).orderControllerGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} orderId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrderControllerApi
+     */
+    public orderControllerMakePayment(orderId: string, options?: AxiosRequestConfig) {
+        return OrderControllerApiFp(this.configuration).orderControllerMakePayment(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

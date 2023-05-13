@@ -8,6 +8,7 @@ import { authManager } from "../src/store/auth";
 import { observer } from "mobx-react";
 import { Button, Col, Row } from "react-bootstrap";
 import { AccountAuth } from "../ui/organisms/auth/AccountAuth";
+import { RenderOrders } from "../ui/organisms/order-widgets/RenderOrders";
 
 export default observer(function Account() {
   return <Main />;
@@ -66,6 +67,7 @@ const Main = observer(() => {
             <Col md={6} className="my-2">
               <div className="p-3 border">
                 <h4>My orders</h4>
+                <RenderOrders/>
               </div>
             </Col>
           </Row>

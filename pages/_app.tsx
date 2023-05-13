@@ -19,7 +19,6 @@ export default function MyApp({ Component, pageProps }) {
 
   pageDataManager.setCurrentProduct(pageProps.product);
   authManager.init();
-
   cartManager.loadCart();
   return (
     <Suspense fallback={<Loading/>}>
