@@ -5,6 +5,8 @@ import "../styles/globals.css";
 import Notiflix from "notiflix";
 import { authManager } from "../src/store/auth";
 import { cartManager } from "../src/store/cart";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export default function MyApp({ Component, pageProps }) {
   pageDataManager.setData(
@@ -20,10 +22,10 @@ export default function MyApp({ Component, pageProps }) {
 
   cartManager.loadCart();
   return (
-    <div>
+    <Suspense fallback={<Loading/>}>
       {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script> */}
       <Component {...pageProps} />
       {/* <script type="text/javascript" src="/scripts/tiny.slider.js"></script> */}
-    </div>
+    </Suspense>
   );
 }

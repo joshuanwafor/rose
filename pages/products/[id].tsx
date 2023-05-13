@@ -3,6 +3,7 @@ import Script from "next/script";
 import {
   RenderFeaturedProducts,
   RenderProductsMin,
+  RenderRelatedProducts,
 } from "../../ui/sections/RenderProductsMin";
 import { AppTemplate } from "../../ui/templates/AppTemplate";
 import {
@@ -15,9 +16,11 @@ import { pageDataManager } from "../../src/store/pageData";
 import { cartManager } from "../../src/store/cart";
 import { formatCurrency } from "../../lib/utils";
 import { observer } from "mobx-react";
+import Link from "next/link";
 
-export default observer( function ViewProduct() {
-  let { cost_price, sale_price, image } = pageDataManager.product;
+export default observer(function ViewProduct() {
+  //@ts-ignore
+  let { cost_price, sale_price, image, id } = pageDataManager.product;
   return (
     <AppTemplate>
       <div className="container my-5">
@@ -35,25 +38,42 @@ export default observer( function ViewProduct() {
               <span></span>
             </div>
             <div className="my-2">
-              <button
-                className="btn btn-primary btn-lg w-100"
-                onClick={() => {
-                  cartManager.addItem(pageDataManager.product);
-                }}
-              >
-                Add to cart
-              </button>
-              <button className="btn btn-lg  border w-100 my-2">Buy now</button>
+              {cartManager.cart.find((_) => _.product_id == id) == undefined ? (
+                <button
+                  className="btn btn-primary btn-lg w-100"
+                  onClick={() => {
+                    cartManager.addItem(pageDataManager.product);
+                  }}
+                >
+                  Add to cart
+                </button>
+              ) : (
+                <button
+                  className="btn btn-info btn-lg w-100"
+                  onClick={() => {
+                    cartManager.removeItem(id);
+                  }}
+                >
+                  Remove from cart
+                </button>
+              )}
+              {cartManager.cart.length >= 1 ? (
+                <Link href={"/checkout"}>
+                  <button className="btn btn-lg  border w-100 my-2">
+                    Buy now
+                  </button>
+                </Link>
+              ) : null}
             </div>
             <p className="my-2">{pageDataManager.product.summary}</p>
           </div>
         </div>
       </div>
 
-      <RenderFeaturedProducts />
+      <RenderRelatedProducts id={id} />
     </AppTemplate>
   );
-})
+});
 
 export async function getServerSideProps({
   req,

@@ -7,8 +7,8 @@ export const SiteCover = () => {
   let meta_description = pageDataManager.site_meta?.site_meta?.meta_description;
   let met_cover =
     pageDataManager.site_meta?.site_meta?.cover_photo ??
-    "https://wallpapercave.com/wp/wp9143643.jpg";
-    
+    "https://res.cloudinary.com/dpoalwc5n/image/upload/v1684004753/colorful-shopping-bags_soccge.jpg";
+
   return (
     <div
       className="px-4 py-5 mb-5 text-center"
