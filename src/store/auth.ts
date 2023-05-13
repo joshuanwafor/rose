@@ -1,54 +1,95 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, observable, runInAction } from "mobx";
 import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  getAuth,
-  UserCredential,
-  User,
-  signOut,
-} from "firebase/auth";
+  LoginDto,
+  AuthApi,
+  AuthenticatedUser,
+  UserPublicData,
+  SignUpDto,
+} from "../sdk/auth";
+import { authController, configureClientSDK } from "../../config/sdk";
 
 class AuthManager {
-  user: {} = {};
+  status: "initial" | "authenticated" = "initial";
+  profile_status: "initial" | "loaded" | "failed" = "initial";
+  profile: UserPublicData | any = {};
+  token: string = "";
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  init() {
-    if (getAuth().currentUser != null) {
-      this.setCredentials(getAuth().currentUser);
-    }
-  }
-
-  async signin() {
+  async login(email: string, password: string) {
+    // startNavigationProgress();
     try {
-      let provider = new GoogleAuthProvider();
-      provider.addScope("profile");
-      provider.addScope("email");
-     // getAuth().setPersistence({ type: "LOCAL" });
-      let credentials = await signInWithPopup(getAuth(), provider);
-      this.setCredentials(credentials.user);
+      const res = await new AuthApi().authControllerLogin({ password, email });
+      const data: AuthenticatedUser = res.data;
+      console.log(res);
+      // resetNavigationProgress();
+      this.initToken(data.token);
     } catch (err) {
-      console.log(err)
+      // resetNavigationProgress();
+    }
+
+    // resetNavigationProgress();
+  }
+
+  async register(payload: SignUpDto) {
+    // startNavigationProgress();
+    try {
+      const res = await new AuthApi().authControllerSignup({
+        ...payload,
+      });
+
+      const data: AuthenticatedUser = res.data;
+      // resetNavigationProgress();
+      this.initToken(data.token);
+    } catch (err) {
+      // resetNavigationProgress();
+    }
+    // resetNavigationProgress();
+  }
+
+  async loadProfile() {
+    try {
+      const res = await authController.authControllerGetIndividualProfile();
+      const data: UserPublicData = res.data.user;
+      console.log("loaded profile", data);
+      runInAction(() => {
+        this.profile = data;
+        this.profile_status = "loaded";
+      });
+    } catch (err) {
+      console.log(err, " clean ");
+      runInAction(() => {
+        this.profile_status = "failed";
+      });
     }
   }
 
-  async signout() {
-    await signOut(getAuth());
-    runInAction(() => {
-      this.user = {};
-    });
+  async initToken(token: string) {
+    try {
+      configureClientSDK(token ?? "");
+      runInAction(() => {
+        this.token = token as string;
+        this.loadProfile();
+      });
+    } catch (err) {}
   }
 
-  setCredentials(user: User) {
-    runInAction(() => {
-      this.user = {
-        display_name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-        uid: user.uid
-      };
-    });
+  async init() {
+    try {
+      let token = sessionStorage.getItem("token");
+      if (token) {
+        this.initToken(token);
+      }
+    } catch (err) {}
+  }
+
+  logout() {
+    authManager.status = "initial";
+    authManager.profile_status = "initial";
+    authManager.profile = {};
+    sessionStorage.clear();
   }
 }
 

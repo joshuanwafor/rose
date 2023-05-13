@@ -1,3 +1,4 @@
+import React from "react";
 import { getHomePage, getPageData } from "../lib";
 import { formatCurrency } from "../lib/utils";
 import { OrderItem } from "../src/sdk/storefront";
@@ -12,6 +13,8 @@ import {
 } from "../ui/sections/RenderProductsMin";
 import { AppTemplate } from "../ui/templates/AppTemplate";
 import { GetServerSidePropsContext } from "next";
+import { Button } from "react-bootstrap";
+import Link from "next/link";
 
 export default function Cart() {
   return (
@@ -30,29 +33,46 @@ export default function Cart() {
         ></PageTitle>
         <MainBody>
           <div>
-            <table className="table  my-5">
-              <thead>
-                <tr>
-                  <th scope="col">Product</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col" style={{textAlign:"right"}}>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cartManager.cart.map((_) => {
-                  return <RenderCartItem item={_} />;
-                })}
-              </tbody>
-            </table>
+            {cartManager.cart.length == 0 ? (
+              <React.Fragment>
+                <div style={{ textAlign: "center" }} className="my-5">
+                  <p>Your cart is empty.</p>
+                  <Link href="/catalog">
+                    <Button className="mt-2 bg-black"> Continue shoping</Button>
+                  </Link>
+                </div>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <table className="table  my-5">
+                  <thead>
+                    <tr>
+                      <th scope="col">Product</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col" style={{ textAlign: "right" }}>
+                        Total
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cartManager.cart.map((_) => {
+                      return <RenderCartItem item={_} />;
+                    })}
+                  </tbody>
+                </table>
 
-            <div className="d-flex justify-content-end my-5">
-              <div style={{ textAlign: "right" }}>
-                <p>Subtotal: {formatCurrency(cartManager.getCartTotal())}</p>
-                <button className="btn btn-primary btn-lg mt-2">
-                  Checkout
-                </button>
-              </div>
-            </div>
+                <div className="d-flex justify-content-end my-5">
+                  <div style={{ textAlign: "right" }}>
+                    <p>
+                      Subtotal: {formatCurrency(cartManager.getCartTotal())}
+                    </p>
+                    <button className="btn btn-primary btn-lg mt-2">
+                      Checkout
+                    </button>
+                  </div>
+                </div>
+              </React.Fragment>
+            )}
             <div className="my-5">
               <RenderFeaturedProducts />
             </div>
@@ -88,7 +108,9 @@ function RenderCartItem({ item }: { item: OrderItem }) {
       <td>
         <div></div>
       </td>
-      <td style={{textAlign:"right"}}>{formatCurrency(item.amount * item.quantity)}</td>
+      <td style={{ textAlign: "right" }}>
+        {formatCurrency(item.amount * item.quantity)}
+      </td>
     </tr>
   );
 }

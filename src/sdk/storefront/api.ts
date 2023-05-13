@@ -134,8 +134,7 @@ export const CollectionCollectionScopeEnum = {
     Product: 'PRODUCT',
     Brand: 'BRAND',
     Collection: 'COLLECTION',
-    Customer: 'CUSTOMER',
-    Global: 'GLOBAL'
+    Customer: 'CUSTOMER'
 } as const;
 
 export type CollectionCollectionScopeEnum = typeof CollectionCollectionScopeEnum[keyof typeof CollectionCollectionScopeEnum];
@@ -322,6 +321,12 @@ export interface Product {
      * @memberof Product
      */
     'vendor': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Product
+     */
+    'brand_id': string;
     /**
      * 
      * @type {number}
@@ -736,42 +741,13 @@ export const OrderControllerApiAxiosParamCreator = function (configuration?: Con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             if (domain !== undefined) {
                 localVarQueryParameter['domain'] = domain;
             }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} item 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        orderControllerGetById: async (item: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'item' is not null or undefined
-            assertParamExists('orderControllerGetById', 'item', item)
-            const localVarPath = `/api/catalog/storefront/order/{item}`
-                .replace(`{${"item"}}`, encodeURIComponent(String(item)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
 
 
     
@@ -793,7 +769,7 @@ export const OrderControllerApiAxiosParamCreator = function (configuration?: Con
         orderControllerPublish: async (publishOrderDto: PublishOrderDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'publishOrderDto' is not null or undefined
             assertParamExists('orderControllerPublish', 'publishOrderDto', publishOrderDto)
-            const localVarPath = `/api/catalog/storefront/order`;
+            const localVarPath = `/api/catalog/storefront/order/checkout`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -804,6 +780,10 @@ export const OrderControllerApiAxiosParamCreator = function (configuration?: Con
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -841,16 +821,6 @@ export const OrderControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} item 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async orderControllerGetById(item: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.orderControllerGetById(item, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @param {PublishOrderDto} publishOrderDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -880,15 +850,6 @@ export const OrderControllerApiFactory = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {string} item 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        orderControllerGetById(item: string, options?: any): AxiosPromise<Order> {
-            return localVarFp.orderControllerGetById(item, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @param {PublishOrderDto} publishOrderDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -915,17 +876,6 @@ export class OrderControllerApi extends BaseAPI {
      */
     public orderControllerGet(domain: string, options?: AxiosRequestConfig) {
         return OrderControllerApiFp(this.configuration).orderControllerGet(domain, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} item 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof OrderControllerApi
-     */
-    public orderControllerGetById(item: string, options?: AxiosRequestConfig) {
-        return OrderControllerApiFp(this.configuration).orderControllerGetById(item, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

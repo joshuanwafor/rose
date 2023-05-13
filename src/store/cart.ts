@@ -1,9 +1,7 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import {
   collection,
-  addDoc,
   setDoc,
-  getDoc,
   getFirestore,
   doc,
   deleteDoc,
@@ -30,13 +28,13 @@ class CartManager {
   async loadCart() {
     // load cart here
     //@ts-ignore
-    if (authManager.user?.uid !== undefined) {
+    if (authManager.profile?.id !== undefined) {
       //@ts-ignore
       let snapshot = await getDocs(
         //@ts-ignore
-        query(collection(db, `users/${authManager.user.uid}/cart`))
+        query(collection(db, `users/${authManager.profile.id}/cart`))
       );
-      
+
       let items = snapshot.docs.map((_) => _.data());
       console.log(items);
       runInAction(() => {
@@ -48,12 +46,12 @@ class CartManager {
 
   async setDocument(id: string, payload: any) {
     //@ts-ignore
-    if (authManager.user?.uid !== undefined) {
+    if (authManager.profile?.id !== undefined) {
       console.log("setting cart item online");
       //@ts-ignore
       await setDoc(
         //@ts-ignore
-        doc(db, `users/${authManager.user.uid}/cart/${id}`),
+        doc(db, `users/${authManager.profile.id}/cart/${id}`),
         payload
       );
     }
@@ -61,11 +59,11 @@ class CartManager {
 
   async deleteDocument(id: string) {
     //@ts-ignore
-    if (authManager.user?.uid !== undefined) {
+    if (authManager.profile?.id !== undefined) {
       //@ts-ignore
       await deleteDoc(
         //@ts-ignore
-        doc(db, `users/${authManager.user.uid}/cart/${id}`)
+        doc(db, `users/${authManager.profile.id}/cart/${id}`)
       );
     }
   }
@@ -77,7 +75,7 @@ class CartManager {
       (
         await getDocs(
           //@ts-ignore
-          query(collection(db, `users/${authManager.user.uid}/cart`))
+          query(collection(db, `users/${authManager.profile.id}/cart`))
         )
       ).docs.forEach(async (_) => {
         //@ts-ignore
@@ -96,6 +94,8 @@ class CartManager {
       product_name: item.title,
       cost: item.cost_price,
       product_variant_id: "",
+      //@ts-ignore
+      business_id: item?.org_id,
     };
 
     // verify that product is not in cart already

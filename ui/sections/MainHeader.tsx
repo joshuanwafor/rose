@@ -8,8 +8,8 @@ export const MainHeader = () => {
     <div className="border-bottom">
       <nav className="navbar navbar-expand-lg container py-3">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            ROSE
+          <a className="navbar-brand" href="/">
+            {pageDataManager.site_meta.display_name.toUpperCase()}
           </a>
           <button
             className="navbar-toggler"

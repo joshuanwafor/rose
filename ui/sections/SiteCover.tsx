@@ -1,3 +1,5 @@
+import { pageDataManager } from "../../src/store/pageData";
+
 export const SiteCover = () => {
   return (
     <div
@@ -14,7 +16,7 @@ export const SiteCover = () => {
       }}
     >
       <h1 className="display-5 fw-bold text-body-emphasis">
-        Industrial design meets fashion.
+       {pageDataManager.site_meta.meta_title}
       </h1>
       <div className="col-lg-6 mx-auto">
         <p className="lead mb-4">Atypical leather goods</p>

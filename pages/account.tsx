@@ -6,12 +6,29 @@ import { MainBody } from "../ui/organisms/MainBody";
 import { useEffect } from "react";
 import { authManager } from "../src/store/auth";
 import { observer } from "mobx-react";
-import { Button } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
+import { AccountAuth } from "../ui/organisms/auth/AccountAuth";
 
 export default observer(function Account() {
+  return <Main />;
+});
+
+const Main = observer(() => {
   useEffect(() => {
     authManager.init();
   }, []);
+
+  if (authManager.profile?.id == undefined) {
+    return (
+      <AppTemplate>
+        <PageTitle title="My Account"></PageTitle>
+        <MainBody>
+          <AccountAuth />
+        </MainBody>
+      </AppTemplate>
+    );
+  }
+
   return (
     <div>
       <AppTemplate>
@@ -19,11 +36,11 @@ export default observer(function Account() {
           title="My Account"
           right={
             //@ts-ignore
-            authManager.user.email == undefined ? undefined : (
+            authManager?.profile?.id == undefined ? undefined : (
               <Button
                 variant=""
                 onClick={() => {
-                  authManager.signout();
+                  authManager.logout();
                 }}
               >
                 Logout
@@ -32,23 +49,18 @@ export default observer(function Account() {
           }
         ></PageTitle>
         <MainBody>
-          <div className="p-3 border">
-            {
-              //@ts-ignore
-              authManager.user.email == undefined ? (
-                <Button
-                  className="text-center"
-                  onClick={() => {
-                    authManager.signin();
-                  }}
-                >
-                  Signin with google
-                </Button>
-              ) : (
-                <p>My Account</p>
-              )
-            }
-          </div>
+          <Row>
+            <Col md={6} className="my-2">
+              <div className="p-3 border">
+                <p>Profile info</p>
+              </div>
+            </Col>
+            <Col md={6} className="my-2">
+              <div className="p-3 border">
+                <p>My orders</p>
+              </div>
+            </Col>
+          </Row>
         </MainBody>
       </AppTemplate>
     </div>
