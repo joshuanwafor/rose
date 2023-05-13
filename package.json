@@ -5,7 +5,7 @@
     "build": "yarn run gen-catalog-live && yarn run gen-auth-live && next build",
     "start": "yarn run gen-catalog && next build && next start -p 3200",
     "commit": "git push origin master && git push host master",
-    "gen-api":"yarn run gen-catalog && yarn run gen-auth",
+    "gen-api": "yarn run gen-catalog && yarn run gen-auth",
     "gen-catalog": "openapi-generator-cli generate -i http://localhost:5000/docs/storefront-catalog-json -g typescript-axios -o src/sdk/storefront",
     "gen-catalog-live": "openapi-generator-cli generate -i https://api.bigmerchant.ng/docs/storefront-catalog-json -g typescript-axios -o src/sdk/storefront",
     "gen-auth-live": "openapi-generator-cli generate -i https://api.bigmerchant.ng/docs/auth-json -g typescript-axios -o src/sdk/auth",
@@ -14,6 +14,7 @@
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.6.0",
     "bootstrap": "^5.2.3",
+    "country-state-city": "^3.1.4",
     "currency-formatter": "^1.5.9",
     "firebase": "^9.21.0",
     "firebaseui": "^6.0.2",
@@ -26,6 +27,7 @@
     "react-bootstrap": "^2.7.4",
     "react-bootstrap-icons": "^1.10.3",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
     "tiny-slider": "^2.9.4",
     "tiny-slider-react": "^0.5.7"
   },

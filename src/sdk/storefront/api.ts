@@ -449,92 +449,58 @@ export type ProductStatusEnum = typeof ProductStatusEnum[keyof typeof ProductSta
 /**
  * 
  * @export
- * @interface PublishOrderDto
+ * @interface PublishUserOrderDto
  */
-export interface PublishOrderDto {
+export interface PublishUserOrderDto {
     /**
      * 
      * @type {Array<OrderItem>}
-     * @memberof PublishOrderDto
+     * @memberof PublishUserOrderDto
      */
     'items': Array<OrderItem>;
     /**
      * 
      * @type {string}
-     * @memberof PublishOrderDto
+     * @memberof PublishUserOrderDto
      */
-    'customer_id': string;
+    'payment_method': PublishUserOrderDtoPaymentMethodEnum;
     /**
      * 
      * @type {string}
-     * @memberof PublishOrderDto
+     * @memberof PublishUserOrderDto
      */
-    'delivery_status': PublishOrderDtoDeliveryStatusEnum;
+    'delivery_method': PublishUserOrderDtoDeliveryMethodEnum;
+    /**
+     * 
+     * @type {Address}
+     * @memberof PublishUserOrderDto
+     */
+    'delivery_address': Address;
     /**
      * 
      * @type {string}
-     * @memberof PublishOrderDto
-     */
-    'payment_strategy': PublishOrderDtoPaymentStrategyEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof PublishOrderDto
-     */
-    'payment_method': PublishOrderDtoPaymentMethodEnum;
-    /**
-     * Initial amount paid
-     * @type {number}
-     * @memberof PublishOrderDto
-     */
-    'payment_of': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof PublishOrderDto
+     * @memberof PublishUserOrderDto
      */
     'branch_id': string;
     /**
      * 
      * @type {string}
-     * @memberof PublishOrderDto
+     * @memberof PublishUserOrderDto
      */
     'org_id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PublishOrderDto
-     */
-    'initiated_by': PublishOrderDtoInitiatedByEnum;
 }
 
-export const PublishOrderDtoDeliveryStatusEnum = {
-    Pending: 'PENDING',
-    Completed: 'COMPLETED'
-} as const;
-
-export type PublishOrderDtoDeliveryStatusEnum = typeof PublishOrderDtoDeliveryStatusEnum[keyof typeof PublishOrderDtoDeliveryStatusEnum];
-export const PublishOrderDtoPaymentStrategyEnum = {
-    Full: 'FULL',
-    Parts: 'PARTS',
-    PayOnDelivery: 'PAY_ON_DELIVERY'
-} as const;
-
-export type PublishOrderDtoPaymentStrategyEnum = typeof PublishOrderDtoPaymentStrategyEnum[keyof typeof PublishOrderDtoPaymentStrategyEnum];
-export const PublishOrderDtoPaymentMethodEnum = {
-    Cash: 'CASH',
-    BankTransfer: 'BANK_TRANSFER',
-    Pos: 'POS',
+export const PublishUserOrderDtoPaymentMethodEnum = {
     Paystack: 'PAYSTACK'
 } as const;
 
-export type PublishOrderDtoPaymentMethodEnum = typeof PublishOrderDtoPaymentMethodEnum[keyof typeof PublishOrderDtoPaymentMethodEnum];
-export const PublishOrderDtoInitiatedByEnum = {
-    User: 'USER',
-    Staff: 'STAFF'
+export type PublishUserOrderDtoPaymentMethodEnum = typeof PublishUserOrderDtoPaymentMethodEnum[keyof typeof PublishUserOrderDtoPaymentMethodEnum];
+export const PublishUserOrderDtoDeliveryMethodEnum = {
+    Pickup: 'PICKUP',
+    Home: 'HOME'
 } as const;
 
-export type PublishOrderDtoInitiatedByEnum = typeof PublishOrderDtoInitiatedByEnum[keyof typeof PublishOrderDtoInitiatedByEnum];
+export type PublishUserOrderDtoDeliveryMethodEnum = typeof PublishUserOrderDtoDeliveryMethodEnum[keyof typeof PublishUserOrderDtoDeliveryMethodEnum];
 
 
 /**
@@ -762,13 +728,13 @@ export const OrderControllerApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
-         * @param {PublishOrderDto} publishOrderDto 
+         * @param {PublishUserOrderDto} publishUserOrderDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        orderControllerPublish: async (publishOrderDto: PublishOrderDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'publishOrderDto' is not null or undefined
-            assertParamExists('orderControllerPublish', 'publishOrderDto', publishOrderDto)
+        orderControllerPublish: async (publishUserOrderDto: PublishUserOrderDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'publishUserOrderDto' is not null or undefined
+            assertParamExists('orderControllerPublish', 'publishUserOrderDto', publishUserOrderDto)
             const localVarPath = `/api/catalog/storefront/order/checkout`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -792,7 +758,7 @@ export const OrderControllerApiAxiosParamCreator = function (configuration?: Con
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(publishOrderDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(publishUserOrderDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -821,12 +787,12 @@ export const OrderControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {PublishOrderDto} publishOrderDto 
+         * @param {PublishUserOrderDto} publishUserOrderDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async orderControllerPublish(publishOrderDto: PublishOrderDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.orderControllerPublish(publishOrderDto, options);
+        async orderControllerPublish(publishUserOrderDto: PublishUserOrderDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.orderControllerPublish(publishUserOrderDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -850,12 +816,12 @@ export const OrderControllerApiFactory = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {PublishOrderDto} publishOrderDto 
+         * @param {PublishUserOrderDto} publishUserOrderDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        orderControllerPublish(publishOrderDto: PublishOrderDto, options?: any): AxiosPromise<Order> {
-            return localVarFp.orderControllerPublish(publishOrderDto, options).then((request) => request(axios, basePath));
+        orderControllerPublish(publishUserOrderDto: PublishUserOrderDto, options?: any): AxiosPromise<Order> {
+            return localVarFp.orderControllerPublish(publishUserOrderDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -880,13 +846,13 @@ export class OrderControllerApi extends BaseAPI {
 
     /**
      * 
-     * @param {PublishOrderDto} publishOrderDto 
+     * @param {PublishUserOrderDto} publishUserOrderDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrderControllerApi
      */
-    public orderControllerPublish(publishOrderDto: PublishOrderDto, options?: AxiosRequestConfig) {
-        return OrderControllerApiFp(this.configuration).orderControllerPublish(publishOrderDto, options).then((request) => request(this.axios, this.basePath));
+    public orderControllerPublish(publishUserOrderDto: PublishUserOrderDto, options?: AxiosRequestConfig) {
+        return OrderControllerApiFp(this.configuration).orderControllerPublish(publishUserOrderDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

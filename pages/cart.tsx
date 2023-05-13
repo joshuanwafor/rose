@@ -48,7 +48,7 @@ export default function Cart() {
                   <thead>
                     <tr>
                       <th scope="col">Product</th>
-                      <th scope="col">Quantity</th>
+                      {/* <th scope="col">Quantity</th> */}
                       <th scope="col" style={{ textAlign: "right" }}>
                         Total
                       </th>
@@ -66,9 +66,11 @@ export default function Cart() {
                     <p>
                       Subtotal: {formatCurrency(cartManager.getCartTotal())}
                     </p>
-                    <button className="btn btn-primary btn-lg mt-2">
-                      Checkout
-                    </button>
+                    <Link href={"/checkout"}>
+                      <button className="btn btn-primary btn-lg mt-2">
+                        Checkout
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </React.Fragment>
@@ -104,9 +106,6 @@ function RenderCartItem({ item }: { item: OrderItem }) {
             <p>{formatCurrency(item.amount)}</p>
           </div>
         </div>
-      </td>
-      <td>
-        <div></div>
       </td>
       <td style={{ textAlign: "right" }}>
         {formatCurrency(item.amount * item.quantity)}

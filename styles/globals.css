@@ -14,7 +14,7 @@ a {
 
 * {
   box-sizing: border-box;
-  border-radius: 0px !important;
+  /* border-radius: 4px !important; */
 }
 
 img {

@@ -1,8 +1,8 @@
 import { pageDataManager } from "../src/store/pageData";
-import "./../init-firebase"
-import 'firebaseui/dist/firebaseui.css'
+import "./../init-firebase";
+import "firebaseui/dist/firebaseui.css";
 import "../styles/globals.css";
-import Notiflix from 'notiflix';
+import Notiflix from "notiflix";
 import { authManager } from "../src/store/auth";
 import { cartManager } from "../src/store/cart";
 
@@ -12,7 +12,9 @@ export default function MyApp({ Component, pageProps }) {
     pageProps.products,
     pageProps.collections
   );
-  
+
+  pageDataManager.setBranches(pageProps.branches);
+
   pageDataManager.setCurrentProduct(pageProps.product);
   authManager.init();
 

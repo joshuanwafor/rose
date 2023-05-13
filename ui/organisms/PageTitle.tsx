@@ -9,7 +9,7 @@ export function PageTitle({
 }) {
   return (
     <div className="bg-body-tertiary">
-      <div className="container py-4 d-flex justify-content-between ">
+      <div className="container py-4 d-flex justify-content-between items-center align-items-center ">
         <div>
           <h3>{title}</h3>
           {caption == undefined ? null : <p>{caption}</p>}
