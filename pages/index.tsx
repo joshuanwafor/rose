@@ -7,11 +7,6 @@ import { RenderProductsMin } from "../ui/sections/RenderProductsMin";
 import { SiteCover } from "../ui/sections/SiteCover";
 import { AppTemplate } from "../ui/templates/AppTemplate";
 import { GetServerSidePropsContext } from "next";
-import {
-  CollectionControllerApi,
-  ProductControllerApi,
-  SiteControllerApi,
-} from "../src/sdk/storefront";
 import { pageDataManager } from "../src/store/pageData";
 import { getHomePage, getPageData } from "../lib";
 

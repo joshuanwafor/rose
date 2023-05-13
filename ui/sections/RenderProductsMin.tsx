@@ -13,7 +13,7 @@ export const RenderProductsMin = observer(() => {
         </Link>
       </div>
       <div className="row my-3">
-        {pageDataManager.products.map((e) => {
+        {pageDataManager.products.slice(0, 8).map((e) => {
           return (
             <div className="col-6 col-md-3 mb-2">
               <ProductCard product={e} />
@@ -32,13 +32,15 @@ export const RenderFeaturedProducts = observer(() => {
         <h3>Featured products</h3>
       </div>
       <div className="row my-3">
-        {pageDataManager.products.filter(e=>e.is_featured).map((e) => {
-          return (
-            <div className="col-6 col-md-3 mb-2">
-              <ProductCard product={e} />
-            </div>
-          );
-        })}
+        {pageDataManager.products
+          .filter((e) => e.is_featured)
+          .map((e) => {
+            return (
+              <div className="col-6 col-md-3 mb-2">
+                <ProductCard product={e} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
