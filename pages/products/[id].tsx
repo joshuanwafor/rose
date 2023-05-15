@@ -25,10 +25,10 @@ export default observer(function ViewProduct() {
     <AppTemplate>
       <div className="container my-5">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-6  my-3">
             <img src={pageDataManager.product.image} className="img-fluid" />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-6 my-3">
             <h1>{pageDataManager.product.title}</h1>
             <div className="my-2">
               <span style={{ fontSize: 24 }}>{formatCurrency(sale_price)}</span>

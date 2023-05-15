@@ -7,12 +7,13 @@ import {
   SignUpDto,
 } from "../sdk/auth";
 import { authController, configureClientSDK } from "../../config/sdk";
+import Notiflix from "notiflix";
 
 class AuthManager {
   status: "initial" | "authenticated" = "initial";
   profile_status: "initial" | "loaded" | "failed" = "initial";
   //@ts-ignore
-  profile: UserPublicData  = {};
+  profile: UserPublicData = {};
   token: string = "";
 
   constructor() {
@@ -20,6 +21,7 @@ class AuthManager {
   }
 
   async login(email: string, password: string) {
+    Notiflix.Loading.pulse();
     // startNavigationProgress();
     try {
       const res = await new AuthApi().authControllerLogin({ password, email });
@@ -27,15 +29,17 @@ class AuthManager {
       console.log(res);
       // resetNavigationProgress();
       this.initToken(data.token);
+      Notiflix.Loading.remove();
     } catch (err) {
       // resetNavigationProgress();
+      Notiflix.Loading.remove();
     }
 
     // resetNavigationProgress();
   }
 
   async register(payload: SignUpDto) {
-    // startNavigationProgress();
+    Notiflix.Loading.pulse();
     try {
       const res = await new AuthApi().authControllerSignup({
         ...payload,
@@ -44,8 +48,11 @@ class AuthManager {
       const data: AuthenticatedUser = res.data;
       // resetNavigationProgress();
       this.initToken(data.token);
+
+      Notiflix.Loading.remove();
     } catch (err) {
       // resetNavigationProgress();
+      Notiflix.Loading.remove();
     }
     // resetNavigationProgress();
   }

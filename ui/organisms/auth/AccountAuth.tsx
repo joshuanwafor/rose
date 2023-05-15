@@ -1,27 +1,45 @@
 import { Col, Row } from "react-bootstrap";
 import { AccountLogin } from "./AccountLogin";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { AccountSignup } from "./AccountSignup";
+import "react-tabs/style/react-tabs.css";
+import { useState } from "react";
 
 export function AccountAuth() {
+  const [tabIndex, setTabIndex] = useState(0);
+
   return (
     <div>
-      <Row className="justify-content-center">
-        <Col md={6} className="border p-3">
-          <ul className="nav nav-pills nav-fill">
-            <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
-                Login
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Create account
-              </a>
-            </li>
-          </ul>
-            <div className="my-3"/>
+      <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+        <TabList className={"d-flex"}>
+          <Tab
+            className={"p-3 py-2"}
+            style={{
+              border: tabIndex == 0 ? "2px solid black" : undefined,
+              borderRadius: 4,
+            }}
+          >
+            Log in
+          </Tab>
+          <Tab
+            className={"p-3 py-2"}
+            style={{
+              border: tabIndex == 1 ? "2px solid black" : undefined,
+              borderRadius: 4,
+            }}
+          >
+            Create account
+          </Tab>
+        </TabList>
+        <TabPanel className={"mt-4"}>
           <AccountLogin />
-        </Col>
-      </Row>
+        </TabPanel>
+        <TabPanel className={"mt-4"}>
+          <AccountSignup />
+        </TabPanel>
+      </Tabs>
+
+      <Row className="justify-content-center"></Row>
     </div>
   );
 }

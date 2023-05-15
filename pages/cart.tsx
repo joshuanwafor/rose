@@ -15,6 +15,7 @@ import { AppTemplate } from "../ui/templates/AppTemplate";
 import { GetServerSidePropsContext } from "next";
 import { Button } from "react-bootstrap";
 import Link from "next/link";
+import { authManager } from "../src/store/auth";
 
 export default function Cart() {
   return (
@@ -66,7 +67,13 @@ export default function Cart() {
                     <p>
                       Subtotal: {formatCurrency(cartManager.getCartTotal())}
                     </p>
-                    <Link href={"/checkout"}>
+                    <Link
+                      href={
+                        authManager?.profile?.id == undefined
+                          ? "/account"
+                          : "/checkout"
+                      }
+                    >
                       <button className="btn btn-primary btn-lg mt-2">
                         Checkout
                       </button>

@@ -24,7 +24,13 @@ const Main = observer(() => {
       <AppTemplate>
         <PageTitle title="My Account"></PageTitle>
         <MainBody>
-          <AccountAuth />
+          <Row>
+            <Col md={6}>
+              <div className="border p-3" style={{borderRadius: 4}}>
+              <AccountAuth />
+              </div>
+            </Col>
+          </Row>
         </MainBody>
       </AppTemplate>
     );
@@ -67,7 +73,7 @@ const Main = observer(() => {
             <Col md={6} className="my-2">
               <div className="p-3 border">
                 <h4>My orders</h4>
-                <RenderOrders/>
+                <RenderOrders />
               </div>
             </Col>
           </Row>

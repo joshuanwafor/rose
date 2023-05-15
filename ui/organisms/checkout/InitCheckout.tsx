@@ -54,7 +54,27 @@ export const InitCheckout = observer(() => {
                 name="radio"
                 value={radio.value}
                 checked={radioValue === radio.value}
-                onChange={(e) => setRadioValue(e.currentTarget.value)}
+                onChange={(e) => {
+                  //@ts-ignore
+                  if (e == "PICKUP") {
+                    setValue("delivery_address", {
+                      address: "",
+                      city: "",
+                      country: "",
+                      postal_code: "",
+                      state: "",
+                    });
+                  } else {
+                    setValue("delivery_address", {
+                      address: "",
+                      city: "",
+                      country: "",
+                      postal_code: "",
+                      state: "",
+                    });
+                  }
+                  setRadioValue(e.currentTarget.value);
+                }}
               >
                 {radio.name}
               </ToggleButton>

@@ -10,15 +10,10 @@ export function OrderCard({ order }: { order: Order }) {
   let [payPayload, setPayPayload] = useState();
   let [show, setShow] = useState(false);
 
-  console.log(pageDataManager.site_meta);
-
   return (
     <div className="border p-2 mb-2" style={{ borderRadius: 4 }}>
       <div className="d-flex justify-content-between">
-        <p>
-          <></>
-          {new Date(order.created_at).toDateString()}
-        </p>
+        <p>{new Date(order.created_at).toDateString()}</p>
         <Pay order={order} />
       </div>
       <div
@@ -44,8 +39,9 @@ function Pay({ order }: { order: Order }) {
       return;
     }
     //@ts-ignore
+    console.log(order, "order");
+    //@ts-ignore
     orderController.orderControllerMakePayment(order.id).then((_) => {
-      console.log(_.data);
       setPayPayload(_.data);
     });
   }
