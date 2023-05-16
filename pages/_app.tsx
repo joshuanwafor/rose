@@ -7,6 +7,7 @@ import { authManager } from "../src/store/auth";
 import { cartManager } from "../src/store/cart";
 import { Suspense } from "react";
 import Loading from "./loading";
+import 'react-tabs/style/react-tabs.css';
 
 export default function MyApp({ Component, pageProps }) {
   pageDataManager.setData(
